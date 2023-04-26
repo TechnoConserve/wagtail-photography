@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
+from generic_chooser.views import ModelChooserViewSet
 
-# Create your views here.
+from wagtail_photography.blocks import CollectionChooserBlock
+
+
+class CollectionChooserViewSet(ModelChooserViewSet):
+    icon = 'folder'
+    model = CollectionChooserBlock.target_model
+    page_title = _('Choose a collection')
+    per_page = 10
