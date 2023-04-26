@@ -1,8 +1,23 @@
 from django.utils.html import format_html
+from django.utils.translation import gettext as _
 from django.templatetags.static import static
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
+from wagtail_photography.models import Album
 
 from wagtail_photography.views import CollectionChooserViewSet
+
+
+@modeladmin_register
+class AlbumModelWagtailAdmin(ModelAdmin):
+    model = Album
+    menu_label = _('Albums')
+    menu_icon = 'image'
+    menu_order = 800
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = ('title', 'description')
+    list_filter = ('collection',)
 
 
 @hooks.register("insert_global_admin_css", order=100)
