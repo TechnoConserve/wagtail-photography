@@ -6,8 +6,6 @@ from django import forms
 from django.db import models
 from django.http import Http404
 from django.shortcuts import render
-from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFit
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, HelpPanel, TabbedInterface, ObjectList, InlinePanel
@@ -18,7 +16,7 @@ from wagtail.models import Orderable
 
 from .blocks import GalleryBlock
 from .forms import AlbumForm
-from .widgets import PictureWidget
+
 
 class Album(ClusterableModel):
     base_form_class = AlbumForm
@@ -84,9 +82,7 @@ class Album(ClusterableModel):
 
 class AlbumImage(Orderable):
     name = models.CharField(max_length=255, default=None, null=True)
-    image = ProcessedImageField(upload_to='albums', processors=[ResizeToFit(1920, 1920)], format='JPEG',
-                                options={'quality': 80})
-    thumb = ProcessedImageField(upload_to='albums', processors=[ResizeToFit(300, 300)], format='JPEG', options={'quality': 80}, blank=True)
+    image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True)
     album = ParentalKey('Album', on_delete=models.CASCADE, related_name='images')
     created = models.DateTimeField(auto_now_add=True)
     width = models.IntegerField(default=0)
@@ -94,7 +90,6 @@ class AlbumImage(Orderable):
     slug = models.SlugField(max_length=70, default=uuid.uuid4, editable=False)
 
     panels = [
-        FieldPanel('thumb', widget=PictureWidget),
         FieldPanel('image'),
     ]
 
@@ -103,12 +98,12 @@ class AlbumImage(Orderable):
 
         self._original_image = copy.copy(self.image)
 
+    def __str__(self):
+        return self.name or str(super())
+
     @property
     def alt(self):
         return "Album Image"
-
-    def __str__(self):
-        return self.name or str(super())
 
 
 class PhotoGalleryMixin(RoutablePageMixin):
