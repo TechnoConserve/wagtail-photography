@@ -12,6 +12,7 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel, HelpPanel, TabbedI
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.coreutils import resolve_model_string
 from wagtail.fields import StreamField
+from wagtail.images import get_image_model_string
 from wagtail.models import Orderable
 
 from .blocks import GalleryBlock
@@ -34,7 +35,7 @@ class Album(ClusterableModel):
     description = models.TextField(max_length=1024)
 
     cover = models.OneToOneField(
-        'wagtail_photography.AlbumImage',
+        get_image_model_string(),
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -63,7 +64,7 @@ class Album(ClusterableModel):
                       'You may use the middle mouse button to drag around multiple selected images.'),
             InlinePanel('images'),
         ], heading='Album Images'),
-        FieldPanel('cover', widget=forms.widgets.Input, classname='hidden_field')
+        FieldPanel('cover')
     ]
 
     settings_panel = [

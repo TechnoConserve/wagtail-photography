@@ -4,15 +4,15 @@
     {% for album in albums %}
 
         <div class="photo-gallery-album-card">
-            {% if album.cover.image %}
+            {% if album.cover %}
                 <picture>
-                    {% image album.cover.image fill-300 format-webp as image_webp %}
+                    {% image album.cover fill-300x300 format-webp as image_webp %}
                     <source srcset="{{ image_webp.url }}" type="image/webp">
 
-                    {% image album.cover.image fill-300 format-jpeg as image_jpeg %}
+                    {% image album.cover fill-300x300 format-jpeg as image_jpeg %}
                     <source srcset="{{ image_jpeg.url }}" type="image/jpeg">
 
-                    {% image album.cover.image fill-300 %}
+                    {% image album.cover fill-300x300 %}
                 </picture>
             {% endif %}
 
