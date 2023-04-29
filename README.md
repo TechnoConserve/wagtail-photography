@@ -14,14 +14,15 @@ Quick start
 1. Install requirements
     
     ```pip install wagtail-generic-chooser```
-2. Add "wagtail_photography" to your INSTALLED_APPS setting like this:
+2. Add "wagtail_photography" and wagtail-generic-chooser to your INSTALLED_APPS setting like this:
 
     INSTALLED_APPS = [
-        ...,
-        "wagtail_photography",
+         ...,
+         "generic_chooser"
+         "wagtail_photography",
     ]
 
-2. Run ``python manage.py migrate`` to create the wagtail_photography models.
+3. Run ``python manage.py migrate`` to create the wagtail_photography models.
 
-3. Start the development server and visit http://127.0.0.1:8000/admin/
+4. Start the development server and visit http://127.0.0.1:8000/admin/
    to create an album.

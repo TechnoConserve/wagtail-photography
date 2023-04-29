@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load wagtailimages_tags %}
 
-</body>
-</html>
+{% block extra_css %}
+    {% include 'wagtail_photography/extra_css.html' %}
+{% endblock %}
+
+{% block content %}
+    {% if album.is_visible %}
+        <article class="photo-gallery-album">
+            <header>
+                <h1>{{ album.title }}</h1>
+            </header>
+            <section>
+                <p>{{ album.description }}</p>
+
+                <div class="photo-gallery-container">
+                    {% for item in images %}
+                        <a href="javascript:pswpInit({{ forloop.counter0 }});">
+                            <picture>
+                                {% image item.image fill-300x300 format-webp as image_webp %}
+                                <source srcset="{{ image_webp.url }}" type="image/webp">
+
+                                {% image item.image fill-300x300 format-jpeg as image_jpeg %}
+                                <source srcset="{{ image_jpeg.url }}" type="image/jpeg">
+
+                                {% image item.image fill-300x300 %}
+                            </picture>
+                        </a>
+                    {% endfor %}
+                </div>
+
+            </section>
+        </article>
+
+        {% include 'includes/photo_swipe.html' %}
+
+    {% else %}
+        <h3>This album is temporarily unavailable.</h3>
+    {% endif %}
+
+    <a href="{{ page.url }}">Go back</a>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+    {% for item in images %}
+console.log({{item}});
+{% endfor %}
+    </script>
+    {% include 'wagtail_photography/extra_js.html' with images=images %}
+{% endblock %}

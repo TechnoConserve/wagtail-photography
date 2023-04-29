@@ -1,0 +1,32 @@
+{% load wagtailimages_tags %}
+
+<div class="photo-gallery-container">
+    {% for album in albums %}
+
+        <div class="photo-gallery-album-card">
+            {% if album.cover %}
+                <picture>
+                    {% image album.cover fill-300x300 format-webp as image_webp %}
+                    <source srcset="{{ image_webp.url }}" type="image/webp">
+
+                    {% image album.cover fill-300x300 format-jpeg as image_jpeg %}
+                    <source srcset="{{ image_jpeg.url }}" type="image/jpeg">
+
+                    {% image album.cover fill-300x300 %}
+                </picture>
+            {% endif %}
+
+            <div class="photo-gallery-album-description">
+
+                <span>{{ album.title }}</span>
+                <p>{{ album.description|truncatechars:120 }}</p>
+
+                <a href="{{ detail_url }}{{ album.slug }}">
+                    View Album
+                </a>
+
+            </div>
+        </div>
+
+    {% endfor %}
+</div>

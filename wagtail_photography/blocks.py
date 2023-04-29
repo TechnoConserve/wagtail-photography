@@ -1,5 +1,5 @@
 from django.utils.functional import cached_property
-from wagtail.admin import blocks
+from wagtail import blocks
 from wagtail.coreutils import resolve_model_string
 
 from .widgets import CollectionChooser
