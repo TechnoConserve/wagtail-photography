@@ -6,8 +6,11 @@
         crossorigin="anonymous"></script>
 
 <script src="{% static 'app.js' %}"></script>
-
-
+<script>
+{% for item in images %}
+console.log({{item}});
+{% endfor %}
+</script>
 <script>
     // build the json album images collection
     window.djangoAlbumImages = [

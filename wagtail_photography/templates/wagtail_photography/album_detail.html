@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-
     {% if album.is_visible %}
         <article class="photo-gallery-album">
             <header>
@@ -45,5 +44,10 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% include 'wagtail_photography/extra_js.html' %}
+    <script>
+    {% for item in images %}
+console.log({{item}});
+{% endfor %}
+    </script>
+    {% include 'wagtail_photography/extra_js.html' with images=images %}
 {% endblock %}
