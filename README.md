@@ -4,6 +4,9 @@ Wagtail Photography
 
 Based on [wagtail-photo-gallery](https://github.com/donhauser/wagtail-photo-gallery)
 
+Be warned, this project is still kinda garbage. Mostly I'm just messing about with it but I do hope to polish it up in
+the not so distant future.
+
 Wagtail-photography is a Wagtail app to display photographs.
 
 Detailed documentation is in the "docs" directory.
