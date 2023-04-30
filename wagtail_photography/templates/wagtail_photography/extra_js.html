@@ -1,4 +1,5 @@
 {% load static %}
+{% load wagtailimages_tags %}
 
 <script
         src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -7,18 +8,14 @@
 
 <script src="{% static 'app.js' %}"></script>
 <script>
-{% for item in images %}
-console.log({{item}});
-{% endfor %}
-</script>
-<script>
     // build the json album images collection
     window.djangoAlbumImages = [
-        {% for item in images %}
+        {% for image_item in image_data %}
+            {% image image_item.image original as photo %}
             {
-                src: '{{ item.image.url }}',
-                w:  {{ item.width }},
-                h:  {{ item.height }}
+                src: '{{ photo.url }}',
+                w:  {{ photo.width }},
+                h:  {{ photo.height }}
             },
         {% endfor %}
     ];

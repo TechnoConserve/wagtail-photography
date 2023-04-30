@@ -15,16 +15,14 @@
                 <p>{{ album.description }}</p>
 
                 <div class="photo-gallery-container">
-                    {% for item in images %}
+                    {% for image_item in image_data %}
                         <a href="javascript:pswpInit({{ forloop.counter0 }});">
                             <picture>
-                                {% image item.image fill-300x300 format-webp as image_webp %}
-                                <source srcset="{{ image_webp.url }}" type="image/webp">
+                                <source srcset="{{ image_item.webp_image_url }}" type="image/webp">
 
-                                {% image item.image fill-300x300 format-jpeg as image_jpeg %}
-                                <source srcset="{{ image_jpeg.url }}" type="image/jpeg">
+                                <source srcset="{{ image_item.jpeg_image_url }}" type="image/jpeg">
 
-                                {% image item.image fill-300x300 %}
+                                {% image image_item.image fill-300x300 %}
                             </picture>
                         </a>
                     {% endfor %}
@@ -44,10 +42,5 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script>
-    {% for item in images %}
-console.log({{item}});
-{% endfor %}
-    </script>
     {% include 'wagtail_photography/extra_js.html' with images=images %}
 {% endblock %}

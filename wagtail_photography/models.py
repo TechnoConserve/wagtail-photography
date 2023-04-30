@@ -1,5 +1,6 @@
 import copy
 import itertools
+import json
 import uuid
 
 from django import forms
@@ -13,6 +14,7 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.coreutils import resolve_model_string
 from wagtail.fields import StreamField
 from wagtail.images import get_image_model_string
+from wagtail.images.views.serve import generate_image_url
 from wagtail.models import Orderable
 
 from .blocks import GalleryBlock
@@ -86,8 +88,6 @@ class AlbumImage(Orderable):
     image = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True)
     album = ParentalKey('Album', on_delete=models.CASCADE, related_name='images')
     created = models.DateTimeField(auto_now_add=True)
-    width = models.IntegerField(default=0)
-    height = models.IntegerField(default=0)
     slug = models.SlugField(max_length=70, default=uuid.uuid4, editable=False)
 
     panels = [
@@ -131,10 +131,19 @@ class PhotoGalleryMixin(RoutablePageMixin):
             except Album.DoesNotExist:
                 continue
 
+            image_data = []
+            for album_image in album.images.all():
+                image = album_image.image
+                image_data.append({'image': image,
+                                   'jpeg_image_url': generate_image_url(image, 'fill-300x300|format-jpeg'),
+                                   'webp_image_url': generate_image_url(image, 'fill-300x300|format-webp'),
+                                   'album_image': album_image,
+                                   })
+
             return render(
                 request,
                 'wagtail_photography/album_detail.html',
-                {'page': self, 'album': album, 'images': album.images.all()}
+                {'page': self, 'album': album, 'image_data': image_data}
             )
 
         raise Http404
