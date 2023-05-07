@@ -1,6 +1,6 @@
-=====
-Wagtail Photography
-=====
+
+## Wagtail Photography
+
 
 Based on [wagtail-photo-gallery](https://github.com/donhauser/wagtail-photo-gallery)
 
@@ -14,9 +14,9 @@ Detailed documentation is in the "docs" directory.
 Quick start
 -----------
 
-1. Install requirements
+1. Install library
 
-   ```pip install wagtail-generic-chooser```
+   ```pip install wagtail-photography```
 
 
 2. Add "wagtail_photography" and wagtail-generic-chooser to your INSTALLED_APPS setting like this:
