@@ -4,8 +4,10 @@
 
 Based on [wagtail-photo-gallery](https://github.com/donhauser/wagtail-photo-gallery)
 
-Be warned, this project is still kinda garbage. Mostly I'm just messing about with it but I do hope to polish it up in
-the not so distant future.
+Be warned, I'm mostly using this project as a learning experience for developing and distributing apps. I'm new at it so
+things are likely to be broken or break in the future. I use it in production on my own website but would advise against
+doing the same if reliability is important to you. I do hope to add tests and generally polish things up in the not so 
+distant future.
 
 Wagtail-photography is a Wagtail app to display photographs.
 
@@ -23,8 +25,10 @@ Quick start
    ```python
    INSTALLED_APPS = [
       ...
-      "generic_chooser",
+      "wagtail.contrib.modeladmin",
+      "wagtail.contrib.routable_page",
       "wagtail_photography",
+      "generic_chooser",
    ]
    ```
 
@@ -44,8 +48,19 @@ Quick start
        re_path(r'', include(wagtail_urls)),
    ]
    ```
+4. Create a Page model that inherits from `PhotoGalleryMixin`:
+   ```python
+   class PhotoGallery(PhotoGalleryMixin, Page):
+       content = StreamField([
+           ("gallery", GalleryBlock()),
+       ], blank=True, use_json_field=True)
    
-4. Run ``python manage.py migrate`` to create the wagtail_photography models.
+       content_panels = Page.content_panels + [
+           FieldPanel("content"),
+       ]
+   ```
+   
+5. Run ``python manage.py migrate`` to create the wagtail_photography models.
 
-5. Start the development server and visit http://127.0.0.1:8000/admin/
+6. Start the development server and visit http://127.0.0.1:8000/admin/
    to create an album.
