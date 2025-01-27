@@ -1,8 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from generic_chooser.views import ModelChooserViewSet
-from wagtail.core.models import Collection
-
-from wagtail_photography.blocks import CollectionChooserBlock
+from wagtail.models import Collection
 
 
 class CollectionChooserViewSet(ModelChooserViewSet):

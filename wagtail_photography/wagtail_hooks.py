@@ -2,7 +2,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.templatetags.static import static
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.core import hooks
+from wagtail import hooks
 from wagtail_photography.models import Album
 
 from wagtail_photography.views import CollectionChooserViewSet
